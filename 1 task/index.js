@@ -6,32 +6,41 @@ const timerEl = document.querySelector('span');
 // который будет анимировать timerEl
 const createTimerAnimator = () => {
   return (seconds) => {
-  //   timer = setInterval(() => {
-  //     seconds -= 1
-  //     let h = Math.floor(seconds / 3600),
-  //       m = Math.floor(seconds % 3600 / 60),
-  //       s = Math.floor(seconds % 3600 % 60);
-  //     if (s === 0 & m === 0 & s === 0) clearInterval(timer);
-  //     if (h < 10) h = '0' + h
-  //     if (m < 10) m = '0' + m
-  //     if (s < 10) s = '0' + s
-  //     console.log(timerEl);
-  //     timerEl.textContent = h + ':' + m + ':' + s
-  //   }, 1000)
-   };
+    let timer = setInterval(() => {
+      seconds -= 1
+      let h = Math.floor(seconds / 3600),
+        m = Math.floor(seconds % 3600 / 60),
+        s = Math.floor(seconds % 3600 % 60);
+     
+
+      if (h < 10) h = '0' + h
+      if (m < 10) m = '0' + m
+      if (s < 10) s = '0' + s
+
+      timerEl.textContent = h + ':' + m + ':' + s
+
+      if (s == 0 & m == 0 & s == 0) {
+        alert('Звонок')
+        timerEl.textContent = 'hh:mm:ss'
+        clearInterval(timer);
+
+      }
+    }, 1000)
+  };
 };
 
 const animateTimer = createTimerAnimator();
 
 inputEl.addEventListener('input', () => {
-  // Очистите input так, чтобы в значении
-  // оставались только числа
+  inputEl.value = inputEl.value.replace(/[^\d]/g, '')
 });
 
 buttonEl.addEventListener('click', () => {
   const seconds = Number(inputEl.value);
+  if (timerEl.textContent === 'hh:mm:ss') {
+    animateTimer(seconds);
+  }
 
-  animateTimer(seconds);
 
   inputEl.value = '';
 });
